@@ -58,21 +58,6 @@ def init_feature(name, nfeatures=1000):
         matcher = cv.BFMatcher(norm)
     return detector, matcher
 
-def filter_matches_by_mean(kp1, kp2, matches, k = 2):
-    mkp1, mkp2 = [], []
-    distances = [m[0].distance for m in matches]
-    mean_distance = np.mean(distances)
-    std_distance = np.std(distances)
-    for m in matches:
-        m = m[0]
-        if abs(m.distance - mean_distance) < k * std_distance:
-            mkp1.append(kp1[m.queryIdx])
-            mkp2.append(kp2[m.trainIdx])
-    p1 = np.float32([kp.pt for kp in mkp1])
-    p2 = np.float32([kp.pt for kp in mkp2])
-    kp_pairs = zip(mkp1, mkp2)
-    return p1, p2, list(kp_pairs)
-
 def filter_matches(kp1, kp2, matches, ratio = 0.75):
     mkp1, mkp2 = [], []
     for m in matches:
@@ -80,20 +65,6 @@ def filter_matches(kp1, kp2, matches, ratio = 0.75):
             m = m[0]
             mkp1.append( kp1[m.queryIdx] )
             mkp2.append( kp2[m.trainIdx] )
-    p1 = np.float32([kp.pt for kp in mkp1])
-    p2 = np.float32([kp.pt for kp in mkp2])
-    kp_pairs = zip(mkp1, mkp2)
-    return p1, p2, list(kp_pairs)
-
-def filter_by_distance(kp1, kp2, matches, num_top = 10):
-    mkp1, mkp2 = [], []
-    distances = [m[0].distance for m in matches]
-    top_distances = sorted(distances)[:num_top]
-    for m in matches:
-        m = m[0]
-        if m.distance in top_distances:
-            mkp1.append(kp1[m.queryIdx])
-            mkp2.append(kp2[m.trainIdx])
     p1 = np.float32([kp.pt for kp in mkp1])
     p2 = np.float32([kp.pt for kp in mkp2])
     kp_pairs = zip(mkp1, mkp2)

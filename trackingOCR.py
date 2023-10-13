@@ -16,15 +16,14 @@ from igpy.common.shortfunc import find_transform_similarity
 import igpy.geometry.geometry as geom
 
 class Defaults:
-    NumPointsPerSampling = 6
-    SampleTimes = 20
-    MatchesFilterRatio = 0.5
-    ParamChangeStep = 0.05
-    OcrThreshold = 0.1
-    TextFontSize = 30
-    TextFontPath = "./font/simsun1.ttc"
-    
-    
+    MatchesFilterRatio = 0.5    # Distance ratio for filtered matches. Smaller value, more rigorous filtering and more confident matches.
+    OcrThreshold = 0.1          # OCR confidence threshold for filtering OCR results. Bigger value means more results will be filtered
+    NumPointsPerSampling = 6    # Number of points to sample for each transformation matrix computation.
+    SampleTimes = 20            # Number of times to compute transformation matrices for soft averaging matrix. Bigger value means more accurate matrix but slower computation.
+    ParamChangeStep = 0.05      # Step size for changing parameters using keyboard input
+    TextFontSize = 30           # Font size for displaying text
+    TextFontPath = "./font/simsun1.ttc"     # Font path for displaying text
+
 
 def soften_matrix(h_matrix_candidates):
     '''
